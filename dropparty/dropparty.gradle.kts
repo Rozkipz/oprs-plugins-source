@@ -27,8 +27,8 @@ import ProjectVersions.rlVersion
 
 version = "0.0.2"
 
-project.extra["PluginName"] = "Raids Bat Finder"
-project.extra["PluginDescription"] = "Tracks which chests need to be searched for bats and which poison"
+project.extra["PluginName"] = "Drop Party"
+project.extra["PluginDescription"] = "Marks where a user ran, for drop partys"
 
 dependencies {
     annotationProcessor(Libraries.lombok)
@@ -38,10 +38,8 @@ dependencies {
     compileOnly("com.openosrs:runelite-client:$rlVersion")
 
     compileOnly(Libraries.guice)
-    compileOnly(Libraries.javax)
     compileOnly(Libraries.lombok)
     compileOnly(Libraries.pf4j)
-    compileOnly(Libraries.rxjava)
 }
 
 tasks {

@@ -1,5 +1,7 @@
+import ProjectVersions.rlVersion
+
 /*
- * Copyright (c) 2017, Tim Lehner <Timothy.Lehner.2011@live.rhul.ac.uk>
+ * Copyright (c) 2019 Owain van Brakel <https://github.com/Owain94>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -22,46 +24,37 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package net.runelite.client.plugins.raidsthieving;
 
-import java.awt.Color;
-import net.runelite.client.config.Config;
-import net.runelite.client.config.ConfigGroup;
-import net.runelite.client.config.ConfigItem;
+version = "0.0.2"
 
-@ConfigGroup("raidsthievingplugin")
-public interface RaidsThievingConfig extends Config
-{
-	@ConfigItem(
-		position = 1,
-		keyName = "hexColorPotentialBat",
-		name = "Potential Bat",
-		description = "Color of marker for chests which could have bat"
-	)
-	default Color getPotentialBatColor()
-	{
-		return Color.YELLOW;
-	}
+project.extra["PluginName"] = "Player Scouter"
+project.extra["PluginDescription"] = "Scout players and output them to your discord channel!"
 
-	@ConfigItem(
-		position = 2,
-		keyName = "hexColorPoison",
-		name = "Poison trap",
-		description = "Color of chest with poison"
-	)
-	default Color getPoisonTrapColor()
-	{
-		return Color.GREEN;
-	}
+dependencies {
+    annotationProcessor(Libraries.lombok)
+    annotationProcessor(Libraries.pf4j)
 
-	@ConfigItem(
-		position = 3,
-		keyName = "batNotify",
-		name = "Notify when found",
-		description = "Send notification if you see bats being found."
-	)
-	default boolean batFoundNotify()
-	{
-		return false;
-	}
+    compileOnly("com.openosrs:runelite-api:$rlVersion")
+    compileOnly("com.openosrs:runelite-client:$rlVersion")
+    compileOnly("com.openosrs:http-api:$rlVersion")
+
+    compileOnly(Libraries.guice)
+    compileOnly(Libraries.javax)
+    compileOnly(Libraries.lombok)
+    compileOnly(Libraries.okhttp3)
+    compileOnly(Libraries.pf4j)
+}
+
+tasks {
+    jar {
+        manifest {
+            attributes(mapOf(
+                    "Plugin-Version" to project.version,
+                    "Plugin-Id" to nameToId(project.extra["PluginName"] as String),
+                    "Plugin-Provider" to project.extra["PluginProvider"],
+                    "Plugin-Description" to project.extra["PluginDescription"],
+                    "Plugin-License" to project.extra["PluginLicense"]
+            ))
+        }
+    }
 }
